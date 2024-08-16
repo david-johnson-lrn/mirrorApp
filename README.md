@@ -1,6 +1,4 @@
 
-![DJ](./assets/LearnosityLogo_cropped.png)  
-
 # React Framework with Learnosity's NodeJS SDK  
 ## Mirroring and Examiner Set Responses in Examinee Session 
 
