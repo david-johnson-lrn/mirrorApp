@@ -7,6 +7,8 @@ const assessRoute = () => {
   // - - - - - - Learnosity's server-side configuration - - - - - - //
 
   // Generate the user ID and session ID as UUIDs, set the web server domain.
+
+
   const user_id = "f628ee36-5682-47cb-a4b9-6a969a01f305"
   const session_id = "f628ee36-5682-47cb-a4b9-6a969a01f305"
 
