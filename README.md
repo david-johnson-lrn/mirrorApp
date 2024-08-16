@@ -10,11 +10,6 @@
    4. [Installation](#4-installation)
    5. [Usage](#5-usage)
    6. [Credits](#6-credits)
-   7. [License](#7-license)
-   8. [Repository Status](#8-github-repo-status)
-   9. [Contribute](#9-how-to-contribute)
-   10. [Tests](#10-tests)
-   11. [Checklist](#11-checklist)
 
 ---
 
@@ -75,49 +70,6 @@ You are welcome to modify the code as you need as allowed by the [license](#7-li
 ### 6. Credits  
 
 * Learnosity's SDK: https://help.learnosity.com/hc/en-us/articles/360000758737-Node-JS-SDK
-
----
-
-### 7. License  
-
- The works in this repository are subject to:  
-
-[![GitHub](https://img.shields.io/github/license/mark-watson-lrn/bootcamp_demo)](doc/LICENSE.md)
-
----
-
-### 8. Github repo status  
-![GitHub top language](https://img.shields.io/github/languages/top/mark-watson-lrn/bootcamp_demo)
-![GitHub language count](https://img.shields.io/github/languages/count/mark-watson-lrn/bootcamp_demo)
-![GitHub last commit](https://img.shields.io/github/last-commit/mark-watson-lrn/bootcamp_demo)
-![GitHub commits in last month](https://img.shields.io/github/commit-activity/m/mark-watson-lrn/bootcamp_demo)
-
----
-
-### 9. How to Contribute  
-
- If you would like to contribute, please comply with the Contributor Covenant Code of Conduct:  
-
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](doc/code_of_conduct.md)
-
----
-
-### 10. Unit Tests  
-
-* No unit tests have been prepared for this application.  
-
----
-
-### 11. Checklist  
-
- All actions not checked are still to be completed:  
-
-[x]  This application satisfies the [acceptance criteria](#3-acceptance-criteria).  
-[x]  Application loads with no errors.  
-[x]  User experience is intuitive and easy to navigate.  
-[x]  User interface style is clean and polished.  
-[x]  GitHub repository contains application code.  
-[x]  Repository has a unique name.  
 
 ---
 
