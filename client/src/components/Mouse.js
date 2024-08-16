@@ -105,6 +105,15 @@ const Mouse = () => {
         }
     };
 
+    const handleStopControl = () => {
+        setControlEnabled(false);
+        setZindexValue(1); // Reset zIndex to default
+        setRemoteCursorPosition({ x: 0, y: 0 }); // Reset cursor position
+        document.getElementById('mouseCanvas').style.pointerEvents = "none";
+        console.log('Mouse control has been stopped and reset.');
+    };
+
+
     return (
         <div
             id={"mouseCanvas"}
@@ -113,7 +122,7 @@ const Mouse = () => {
             onClick={handleClick}
             style={{
                 width: '100vw',
-                height: '70vh',
+                height: '75vh',
                 border: '1px solid black',
                 position: 'fixed',
                 top: "1px",
@@ -128,6 +137,18 @@ const Mouse = () => {
                 left: "50vw",
                 padding: "1em"
             }} >Take Control</button>
+
+            <button
+                onClick={handleStopControl}
+                style={{
+                    position: 'fixed',
+                    top: '85vh',
+                    left: '50vw',
+                    zIndex: zIndexValue + 1 // Ensure the button is on top of the red dot
+                }}
+            >
+                Stop Control
+            </button>
 
             <div
 

@@ -7,8 +7,8 @@ const assessRoute = () => {
   // - - - - - - Learnosity's server-side configuration - - - - - - //
 
   // Generate the user ID and session ID as UUIDs, set the web server domain.
-  const user_id = "22362ae0-64f3-449c-9d28-a2e514fb9e9b"
-  const session_id = "22362ae0-64f3-449c-9d28-a2e514fb9e9b"
+  const user_id = "f628ee36-5682-47cb-a4b9-6a969a01f305"
+  const session_id = "f628ee36-5682-47cb-a4b9-6a969a01f305"
 
   let domain = 'localhost';
 
@@ -48,7 +48,7 @@ const assessRoute = () => {
 
       // A reference of the Activity to retrieve from the Item bank, defining which
       // Items will be served in this assessment.
-      activity_template_id: "javascript_101",
+      activity_template_id: "NY-Activity",
 
       // Uniquely identifies this specific assessment attempt session for  save/resume, data
       // retrieval and reporting purposes. A UUID generated on line 18.

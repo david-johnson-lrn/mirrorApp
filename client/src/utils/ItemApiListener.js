@@ -7,6 +7,8 @@ export const QuizListener = (authentication) => {
     const [currentItem, setCurrentItem] = useState('');
     const [currentResponse, setCurrentResponse] = useState('');
     const [lrnObj, setObj] = useState('');
+    const [clicked, setClicked] = useState(false)
+
 
     function sendMessage(message) {
 
@@ -15,6 +17,8 @@ export const QuizListener = (authentication) => {
 
 
     let learnosityObj = "";
+
+
 
     useEffect(() => {
 
@@ -25,23 +29,28 @@ export const QuizListener = (authentication) => {
                 learnosityObj = LearnosityItems.init(authentication.authenticated.request, {
                     readyListener() {
                         console.log('👍🏼 <<< Learnosity Assess API is ready >>> 🧘🏼');
+                        setObj(learnosityObj)
+
 
                         let studentItem = {
 
                         }
 
-
                         const questionsApp = learnosityObj.questions();
 
                         Object.values(questionsApp).forEach((question) => {
                             question.on('changed', function () {
+                                console.log(clicked)
                                 studentItem.item = learnosityObj.getCurrentItem().reference
                                 studentItem.response = question.getResponse().value
+                                console.log("clicked ininitial")
+
+
                                 learnosityObj.save()
 
                                 learnosityObj.on('test:save:success', function () {
                                     console.log('This code executes when saving the assessment is successful.');
-                                    setCurrentResponse(question.getResponse().value)
+
 
                                     sendMessage(studentItem)
 
@@ -49,15 +58,28 @@ export const QuizListener = (authentication) => {
                             });
                         });
 
+
+
                         learnosityObj.on("item:load", function () {
+                            //setClicked(false)
 
                             learnosityObj.save()
                             studentItem.item = learnosityObj.getCurrentItem().reference
 
-                            sendMessage(studentItem)
+
+                            learnosityObj.on('test:save:success', function () {
+
+                                sendMessage(studentItem)
+                            })
 
                         })
 
+                        learnosityObj.on("item:unload", function () {
+                            console.log("unloaded")
+                            // setClicked(false)
+
+
+                        })
 
                     },
                     errorListener(err) {
@@ -65,7 +87,7 @@ export const QuizListener = (authentication) => {
                     },
                 });
 
-                setObj(learnosityObj)
+
             }
 
             if (typeof LearnosityReports !== 'undefined') {
@@ -91,7 +113,7 @@ export const QuizListener = (authentication) => {
             }
         }
 
-    }, [authentication, currentResponse]);
+    }, [authentication]);
 
     //useEffect WebSocket
     useEffect(() => {
@@ -114,18 +136,23 @@ export const QuizListener = (authentication) => {
 
             try {
                 const result = await readBlobAsText(event.data);
-
+                console.log(result)
                 let jsonResult = JSON.parse(result)
 
                 setCurrentItem(jsonResult["item"])
 
-                setCurrentResponse(jsonResult["response"])
-                console.log('Message received:', result);
+                if (currentResponse != jsonResult["response"]) {
+                    setCurrentResponse(jsonResult["response"])
+
+                }
 
                 // Handle the received message as needed
             } catch (error) {
                 // console.error('Error parsing message:', error);
             }
+        };
+        ws.current.onclose = () => {
+            console.log('WebSocket connection closed');
         };
 
     }, [])
@@ -141,28 +168,108 @@ export const QuizListener = (authentication) => {
             if (lrnObj != "") {
 
                 lrnObj.items().goto(currentItem)
-                console.log(currentResponse)
+                // console.log(currentResponse)
             }
 
         }
     }, [currentItem]);
 
-    //useEffect for checking changes to currentItem state
+    // useEffect for checking changes to currentItem state
     useEffect(() => {
         if (currentResponse) {
 
-            if (lrnObj != "") {
+            console.log(clicked)
 
-                console.log(currentResponse)
+
+            if (!clicked && currentResponse) {
+
+                let isSafe = lrnObj.safeToUnload();
+                console.log(isSafe)
+                console.log(lrnObj)
+                if (isSafe) {
+                    lrnObj.reset()
+
+                    let newLrnObj = LearnosityItems.init(authentication.authenticated.request, {
+                        readyListener() {
+                            console.log('<<< Reconnecting Learnosity Assess API >>>');
+
+                            setObj(newLrnObj)
+
+
+                            let newStudentItem = {
+
+                            }
+
+
+                            // var validationOptions = {
+                            //     showCorrectAnswers: true
+                            // };
+
+                            // newLrnObj.validateQuestions(validationOptions)
+                            let newQestionsApp = newLrnObj.questions();
+                            console.log(newLrnObj.questions())
+
+
+                            Object.values(newQestionsApp).forEach((question) => {
+                                question.on('changed', function () {
+
+                                    setClicked(false)
+                                    newStudentItem.item = newLrnObj.getCurrentItem().reference
+                                    newStudentItem.response = question.getResponse().value
+
+                                    newLrnObj.save()
+
+                                    newLrnObj.on('test:save:success', function () {
+                                        console.log('This code executes when saving the assessment is successful.');
+
+                                        sendMessage(newStudentItem)
+
+                                    });
+                                });
+                            });
+
+
+
+                            newLrnObj.on("item:load", function () {
+                                setClicked(false)
+
+                                newLrnObj.save()
+                                newStudentItem.item = newLrnObj.getCurrentItem().reference
+
+
+                                newLrnObj.on('test:save:success', function () {
+                                    sendMessage(newStudentItem)
+                                })
+                            })
+
+                        },
+                        errorListener(err) {
+                            console.log('error', err);
+                        },
+                    })
+                }
+
             }
 
         }
     }, [currentResponse]);
 
-    // console.log(currentItem)
+
+    // document.body.addEventListener("click", handleClick)
+
+    function handleClick(event) {
+        console.log(event.target)
+        setClicked(true)
+        // if (clicked === false) {
+        //     setClicked(true)
+        // }
+
+    }
+
+
 
     return (
-        < div id='quiz-container' >
+        < div id='quiz-container' onClick={handleClick}>
             {/* This tells Learnosity where to inject the API */}
             < div id='learnosity_assess' ></div >
         </div >
